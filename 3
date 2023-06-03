@@ -1,0 +1,96 @@
+import java.util.*;
+import java.lang.*;
+public class test3 {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        System.out.println("Введите N: ");
+        int n = in.nextInt();
+        System.out.println("Заполните массив, содержащий " + n + " элементов");
+        char[] arr = new char[n];
+        for (int i = 0; i < n; i++) {
+            arr[i] = Simvol();
+        }
+        String s = (((Arrays.toString(arr)).replace("]", "")).replace("[", "")).replace(",", "");
+        String str = s.replace(" ", "");
+        System.out.println("Введите букву: ");
+        String bukva = in.next();
+        System.out.println("Введите слово: ");
+        String slovo = in.next();
+        int count = 0;
+        for (int j = 0; j < slovo.length(); j++) {
+            for (int k = 0; k < str.length(); k++){
+                if (slovo.charAt(j) == str.charAt(k)) {
+                    count++;
+                }
+            }
+        }
+        boolean fl = true;
+        for (int g = 0; g < str.length(); g++) {
+            if ((str.contains("он")) || (str.contains("но"))) {
+                fl = true;
+            } else {
+                fl = false;
+            }
+        }
+        boolean daSkolkoMozhno = true;
+        for (int h = 0; h < arr.length - 1; h++) {
+            if (arr[h] == arr[h + 1]) {
+                daSkolkoMozhno = true;
+                break;
+            } else {
+                daSkolkoMozhno = false;
+            }
+        }
+        int kolProbelov = s.length() - s.replace(" ", "").length();
+        System.out.println("а) Количество пробелов равняется " + kolProbelov);
+        if (s.contains(bukva)) {
+            System.out.println("б) Буква " + bukva + " входит в данную последовательность");
+        } else {
+            System.out.println("б) Буква " + bukva + " не входит в данную последовательность");
+        }
+        if (count >= slovo.length()) {
+            System.out.println("в) Все буквы из слова " + slovo + " содержатся в исходной последовательности");
+        } else {
+            System.out.println("в) Не все буквы из слова " + slovo + " содержатся в исходной последовательности");
+        }
+        if (fl == true) {
+            System.out.println("г) Последовательность содержит соседствующие буквы о и н");
+        } else if (fl == false) {
+            System.out.println("г) Последовательность не содержит соседствующие буквы о и н");
+        }
+        if (daSkolkoMozhno == true) {
+            System.out.println("д) Последовательность содержит соседствующие одинаковые буквы");
+        } else if (daSkolkoMozhno == false) {
+            System.out.println("д) Последовательность не содержит соседствующие одинаковые буквы");
+        }
+        boolean trip = true;
+        for (int i = 2; i < n - 2; i++){
+            for (int j = i + 1; j < n - 1; j++){
+                if(arr[j] == arr[j + 1] & arr[i] == arr[i + 1]){
+                    System.out.println("е) Такие натуральные числа существуют");
+                    break;
+                }
+                else{
+                    trip = false;
+                }
+            }
+        }
+        if (trip == false){
+            System.out.println("е) Таких натуральных чисел не существуют");
+        }
+    }
+    public static char Simvol () {
+        Scanner in = new Scanner(System.in);
+        char ch = ' ';
+        String S = in.next();
+        if (S.length() == 1)
+            ch = S.charAt(0);
+        else
+            while (S.length() != 1) {
+                System.out.println("Ошибка! Вводите по одному символу!");
+                S = in.next();
+                if (S.length() == 1)
+                    ch = S.charAt(0);
+            }return ch;
+    }
+}
