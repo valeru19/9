@@ -1,0 +1,58 @@
+class test12{
+    private static String normalizeAddress(String address) {
+        String[] house = {" д ", "дом."};
+        for (String abb : house) {
+            address = address.replaceAll("(?i)" + abb, "д.");
+        }
+        String[] apartment = {"кв ", "квартира."};
+        for (String abb : apartment) {
+            address = address.replaceAll("(?i)" + abb, "кв.");
+        }
+        String[] region = {"обл.", "обл "};
+        for (String abb : region) {
+            address = address.replaceAll("(?i)" + abb, "кр.");
+        }
+        String[] city = {"город ", "гор.", "г "};
+        for (String abb : city) {
+            address = address.replaceAll("(?i)" + abb, "г.");
+        }
+        if (address.contains("д.") && !address.contains("кв.")) {
+            address += " FALSE";
+        }
+        return address;
+    }
+
+    private static String normalizePhone(String phone) {
+        phone = phone.replaceAll("[\\s-()]", "");
+
+        if (phone.startsWith("8")) {
+            phone = "+7" + phone.substring(1);
+        } else if (phone.startsWith("7")) {
+            phone = "+7" + phone.substring(1);
+        } else if (!phone.startsWith("+")) {
+            phone = "+7" + phone;
+        }
+        StringBuilder sb = new StringBuilder(phone + " ");
+        sb.insert(2,"(");sb.insert(6,")");sb.insert(10,"-");sb.insert(13,"-");
+        phone = String.valueOf(sb);
+        if (phone.replaceAll("\\D", "").length() < 10) {
+            phone = "FALSE";
+        }
+        return phone;
+    }
+
+    public static void main(String[] args) {
+        String[] addresses = {"г. Москва, ул. Ленина, д. 10, кв. 5, телефон +7 (495) 123-45-67",
+                "город Санкт-Петербург, улица Пушкина, 10, квартира 5, телефон 8-912-345-67-89",
+                "г Владивосток, ул. Светланская, д. 20, телефон 123-45-67",
+                "Краснодарский край, г. Сочи, ул. Лазурная, дом 5, кв. 10, телефон 79123456789",};
+
+        for (String address : addresses) {
+            String[] parts = address.split("телефон");
+            String normalizedAddress = normalizeAddress(parts[0].trim());
+            String normalizedPhone = normalizePhone(parts[1].trim());
+            System.out.println(address);
+            System.out.println(normalizedAddress + " телефон " + normalizedPhone);
+        }
+    }
+}
