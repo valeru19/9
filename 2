@@ -1,0 +1,50 @@
+import java.util.*;
+public class test2{
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        System.out.println("Введите N: ");
+        int n = in.nextInt();
+        System.out.println("Заполните массив, содержащий " + n + " элементов");
+        char [] arr = new char [n];
+        for (int i = 0; i < n; i++){
+            arr[i] = Simvol();
+        }
+        String s = (((Arrays.toString(arr)).replace("]", "")).replace("[", "")).replace(", ", "");
+        int decimal = (int) Long.parseUnsignedLong(s, 2);
+        String res = getInBase(decimal);
+        char [] arr1 = new char[res.length()];
+        for (int i = 0; i < res.length(); i++){
+            arr1[i] = res.charAt(i);
+        }
+        printMatr(arr1);
+    }
+    public static char Simvol(){
+        Scanner in = new Scanner(System.in);
+        char ch = ' ';
+        String S = in.next();
+        if (S.length()==1 && !(S.contains("2") || S.contains("3") || S.contains("4") || S.contains("5") || S.contains("6") || S.contains("7") || S.contains("8") || S.contains("9")))
+            ch = S.charAt(0);
+        else
+            while (S.length() != 1 || (S.contains("2") || S.contains("3") || S.contains("4") || S.contains("5") || S.contains("6") || S.contains("7") || S.contains("8") || S.contains("9"))){
+                System.out.println("Ошибка! Вводите по одному символу и не вводите символы от 2 до 9 включительно!");
+                S = in.next();
+                if (S.length() == 1)
+                    ch = S.charAt(0);
+            }return ch;
+    }
+    public static void printMatr (char [] arr){
+        System.out.println();
+        for (int i = 0; i < arr.length; i++){
+            System.out.println(arr[i] + "\t");
+        }
+        System.out.println();
+    }
+    public static String getInBase(int number){
+        StringBuilder num = new StringBuilder();
+        while (number > 0){
+            num.insert(0, number % 9);
+            number = number / 9;
+        }
+        return num.toString();
+    }
+}
