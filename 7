@@ -1,0 +1,33 @@
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+public class test7 {
+    public static void main(String[] args) {
+        String input = "cos(x) + sin(x) + cos(sin(sin(x))) + sin(cos(x))";
+        int sinCount = countT(input, "sin");
+        int cosCount = countT(input, "cos");
+        System.out.println("sin count: " + sinCount);
+        System.out.println("cos count: " + cosCount);
+    }
+
+    private static int countT(String input, String str) {
+        int cnt = 0;
+        Pattern pattern = Pattern.compile(str + "\\s*\\(");
+        Matcher matcher = pattern.matcher(input);
+        while (matcher.find()) {
+            int open = 1;
+            int close = 0;
+            int i = matcher.end();
+            while (open != close && i < input.length()) {
+                if (input.charAt(i) == '(') {
+                    open++;
+                } else if (input.charAt(i) == ')') {
+                    close++;
+                }
+                i++;
+            }
+            cnt++;
+        }
+        return cnt;
+    }
+}
