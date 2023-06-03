@@ -1,0 +1,62 @@
+import java.util.*;
+
+public class test66{
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        System.out.print("Введите количество строк: ");
+        int n = in.nextInt();
+        in.nextLine();
+        String[] arr = new String[n];
+        for (int i = 0; i < n; i++) {
+            System.out.print("Введите строку " + (i+1) + ": ");
+            arr[i] = in.nextLine();
+        }
+        String[] result = findInfoByKeywords(arr, "Факультет", "Кафедра", "ФИО" , "Исследовательской группы", "Финансирование", "Младше 39", "Аспирантов", "Студентов", "Стоимость оборудования");
+        for (int i = 0; i < n; i++) {
+            System.out.println("Факультет: " + result[0]);
+            System.out.println("Кафедра: " + result[1]);
+            System.out.println("ФИО руководителя: " + result[2]);
+            System.out.println("Количество членов исследовательской группы: " + result[3]);
+            System.out.println("Сумма финансирования: " + result[4]);
+            System.out.println("Количество членов исследовательской группы младше 39 лет: " + result[5]);
+            System.out.println("Количество аспирантов, привлеченных к проекту: " + result[6]);
+            System.out.println("Количество студентов, привлеченных к проекту: " + result[7]);
+            System.out.println("Общая стоимость оборудования: " + result[8]);
+            System.out.println();
+        }
+        double financingSum = 0;
+        double equipmentCostSum = 0;
+        int count = 0;
+        double financing = Double.parseDouble(result[4]);
+        double equipmentCost = Double.parseDouble(result[8]);
+        int researchers = Integer.parseInt(result[3]);
+        int youngResearchers = Integer.parseInt(result[5]);
+        int students = Integer.parseInt(result[7]);
+        int postgraduates = Integer.parseInt(result[6]);
+
+        if (financing > 0.5 && equipmentCost > 1 && youngResearchers > researchers/2 && students >= 1 && postgraduates >= 2) {
+            String leaderName = result[2];
+            System.out.println("ФИО руководителя проекта: " + leaderName);
+            financingSum += financing;
+            equipmentCostSum += equipmentCost;
+            count++;
+        }
+
+        System.out.println("Количество проектов, удовлетворяющих условиям: " + count);
+        System.out.println("Сумма финансирования проектов, удовлетворяющих условиям: " + financingSum);
+        System.out.println("Сумма стоимости оборудования проектов, удовлетворяющих условиям: " + equipmentCostSum);
+    }
+
+    public static String[] findInfoByKeywords(String[] arr, String... keywords) {
+        List<String> orderedResult = new ArrayList<>();
+        for (String keyword : keywords) {
+            for (String s : arr) {
+                if (s.contains(keyword)) {
+                    int index = s.indexOf(keyword) + 1;
+                    orderedResult.add(s.substring(index + keyword.length()));
+                }
+            }
+        }
+        return String.join("\n", orderedResult).split("\n");
+    }
+}
