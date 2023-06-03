@@ -1,0 +1,36 @@
+import java.util.*;
+public class test10 {
+    public static void main(String[] args) {
+        String data = "Иванов; Иван; Иванович; м; русский; 205; 100; 1990, 01, 01; +79001234567; Команда1; 10; нападающий; 200; 20."
+                + "Петров; Петр; Петрович; м; украинец; 210; 95; 1995, 05, 05; +79002345678; Команда2; 5; защитник; 100; 15."
+                + "Сидорова; Анна; Сергеевна; ж; русская; 190; 80; 1998, 03, 15; +79003456789; Команда1; 5; центровой; 50; 10."
+                + "Козлова; Мария; Андреевна; ж; россиянка; 195; 85; 1993, 07, 25; +79004567890; Команда2; 7; защитник; 120; 17.";
+
+        String[] playersData = data.split("\\.");
+        int count = 0;
+        List<String> highWeightTallPlayers = new ArrayList<>();
+        List<String> highScoringPlayers = new ArrayList<>();
+
+        for (String playerData : playersData) {
+            String[] playerFields = playerData.split(";");
+            int height = Integer.parseInt(playerFields[5].trim());
+            int weight = Integer.parseInt(playerFields[6].trim());
+            int score = Integer.parseInt(playerFields[12].trim());
+
+            if (height >= 200 && height <= 220 && weight >= 90 && weight <= 110) {
+                count++;
+                highWeightTallPlayers.add(playerData);
+            }
+
+            if (score > 150) {
+                highScoringPlayers.add(playerData);
+            }
+        }
+
+        System.out.println("Количество баскетболистов с ростом от 200 до 220 см и весом от 90 до 110 кг: " + count);
+        System.out.println("Сведения про баскетболистов, которых забросили за свою команду больше 150 очков:");
+        for (String playerData : highScoringPlayers) {
+            System.out.println(playerData);
+        }
+    }
+}
