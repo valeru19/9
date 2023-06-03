@@ -1,0 +1,47 @@
+public class test8 {
+    public static void main(String[] args) {
+        String text = "5i2km0j 3l4u2k0j 5i2km0j 1j3lm0jo";
+        System.out.println(text);
+        String decodedText = decode(text);
+        System.out.println(decodedText);
+    }
+
+    public static String decode(String text) {
+        String[] words = text.split(" ");
+        StringBuilder decodedText = new StringBuilder();
+        for (String word : words) {
+            if (word.length() == 1) break;
+            StringBuilder decodedWord = new StringBuilder();
+            for (char c : word.toCharArray()) {
+                switch (c) {
+                    case '0':
+                        decodedWord.append('m');
+                        break;
+                    case '1':
+                        decodedWord.append('j');
+                        break;
+                    case '2':
+                        decodedWord.append('k');
+                        break;
+                    case '3':
+                        decodedWord.append('l');
+                        break;
+                    case '4':
+                        decodedWord.append('u');
+                        break;
+                    case '5':
+                        decodedWord.append('i');
+                        break;
+                    case '6':
+                        decodedWord.append('o');
+                        break;
+                    default:
+                        decodedWord.append(c);
+                }
+            }
+            decodedText.append(decodedWord).append(" ");
+        }
+        return decodedText.toString().trim();
+    }
+}
+
