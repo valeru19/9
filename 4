@@ -1,0 +1,95 @@
+import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+public class Manq {
+    public static void main(String[] args) {
+        char[][] matrix = {
+                {'l', 'n', '1', ' ', '-', ' ', '5', ' ', '=', ' ', '2'},
+                {'n', 'n', '2', ' ', '-', ' ', '1', ' ', '=', ' ', '8'},
+                {'9', 'n', '4', ' ', '-', ' ', '2', ' ', '=', ' ', '1'},
+                {' ', 'n', '4', ' ', '-', ' ', '2', ' ', '=', ' ', '1'},
+                {'-', 'n', '1', ' ', '-', ' ', '5', ' ', '=', ' ', '2'},
+                {' ', 'n', '1', ' ', '-', ' ', '5', ' ', '=', ' ', '2'},
+                {'1', 'n', '1', ' ', '-', ' ', '5', ' ', '=', ' ', '2'},
+                {' ', 'n', '1', ' ', '-', ' ', '5', ' ', '=', ' ', '2'},
+                {'=', 'n', '1', ' ', '-', ' ', '5', ' ', '=', ' ', '2'},
+                {' ', 'n', '1', ' ', '-', ' ', '5', ' ', '=', ' ', '2'},
+                {'1', 'n', '1', ' ', '-', ' ', '5', ' ', '=', ' ', '2'},
+        };
+        int cnt = 0;
+        int cnt1 = 0;
+        Pattern pattern = Pattern.compile("ln(\\d+) - (\\d+) = (\\d+)");
+        ArrayList<String> correctedExpressions = new ArrayList<String>();
+        for (int i = 0; i < matrix.length; i++) {
+            for (int j = 0; j < matrix[i].length; j++) {
+                if (matrix[i][j] == 'l' && j < matrix[i].length - 10) {
+                    String expression1 = Character.toString(matrix[i][j]) + Character.toString(matrix[i][j+1])
+                            + Character.toString(matrix[i][j+2]) + Character.toString(matrix[i][j+3])
+                            + Character.toString(matrix[i][j+4]) + Character.toString(matrix[i][j+5])
+                            + Character.toString(matrix[i][j+6]) + Character.toString(matrix[i][j+7])
+                            + Character.toString(matrix[i][j+8]) + Character.toString(matrix[i][j+9])
+                            + Character.toString(matrix[i][j+10]);
+                    String expression2 = Character.toString(matrix[i][j]) + Character.toString(matrix[i+1][j])
+                            + Character.toString(matrix[i+2][j]) + Character.toString(matrix[i+3][j])
+                            + Character.toString(matrix[i+4][j]) + Character.toString(matrix[i+5][j])
+                            + Character.toString(matrix[i+6][j]) + Character.toString(matrix[i+7][j])
+                            + Character.toString(matrix[i+8][j]) + Character.toString(matrix[i+9][j])
+                            + Character.toString(matrix[i+10][j]);
+                    Matcher matcher1= pattern.matcher(expression1);
+                    if (matcher1.find()) {
+                        int num1 = Character.getNumericValue(matrix[i][j+2]);
+                        int num2 = Character.getNumericValue(matrix[i][j+6]);
+                        int num3 = Character.getNumericValue(matrix[i][j+10]);
+                        int num11 = Character.getNumericValue(matrix[i+2][j]);
+                        int num22 = Character.getNumericValue(matrix[i+6][j]);
+                        int num33 = Character.getNumericValue(matrix[i+10][j]);
+                        if (Math.log(num1) - num2 == num3) {
+                            cnt1++;
+                            correctedExpressions.add(expression1);
+                        } else {
+                            cnt++;
+                            double correctedNum3 = (Math.log(num1) - num2);
+                            String strNum3 = Double.toString(correctedNum3);
+                            char [] charNum3 = strNum3.toCharArray();
+                            char[] cExpression = {
+                                    matrix[i][j], matrix[i][j+1], matrix[i][j+2], matrix[i][j+3],
+                                    matrix[i][j+4], matrix[i][j+5], matrix[i][j+6], matrix[i][j+7],
+                                    matrix[i][j+8], matrix[i][j+9]
+                            };
+                            char[] correctedExpression = new char [charNum3.length + cExpression.length];
+                            System.arraycopy(cExpression, 0, correctedExpression, 0, cExpression.length);
+                            System.arraycopy(charNum3, 0, correctedExpression, cExpression.length, charNum3.length);
+                            correctedExpressions.add(new String(correctedExpression));
+                            correctedExpressions.add(expression1);
+                        }
+                        if (Math.log(num11) - num22 == num33) {
+                            cnt1++;
+                            correctedExpressions.add(expression1);
+                        }else {
+                            cnt++;
+                            double correctedNum33 = (Math.log(num11) - num22);
+                            String strNum33 = Double.toString(correctedNum33);
+                            char [] charNum33 = strNum33.toCharArray();
+                            char[] cExpression = {
+                                    matrix[i][j], matrix[i+1][j], matrix[i+2][j], matrix[i+3][j],
+                                    matrix[i+4][j], matrix[i+5][j], matrix[i+6][j], matrix[i+7][j],
+                                    matrix[i+8][j], matrix[i+9][j]
+                            };
+                            char[] correctedExpression = new char [charNum33.length + cExpression.length];
+                            System.arraycopy(cExpression, 0, correctedExpression, 0, cExpression.length);
+                            System.arraycopy(charNum33, 0, correctedExpression, cExpression.length, charNum33.length);
+                            correctedExpressions.add(new String(correctedExpression));
+                            correctedExpressions.add(expression1);
+                        }
+                    }
+                }
+            }
+        }
+        System.out.println("Incorrect expression = " + cnt);
+        System.out.println("Correct expression = " + cnt1);
+        for (String expression : correctedExpressions) {
+            System.out.println(expression);
+        }
+    }
+}
